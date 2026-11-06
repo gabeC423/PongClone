@@ -134,6 +134,7 @@ GameObject:
   - component: {fileID: 374155386}
   - component: {fileID: 374155385}
   - component: {fileID: 374155387}
+  - component: {fileID: 374155388}
   m_Layer: 0
   m_Name: RightPaddle
   m_TagString: Untagged
@@ -229,6 +230,20 @@ Rigidbody2D:
   m_SleepingMode: 1
   m_CollisionDetection: 0
   m_Constraints: 0
+--- !u!114 &374155388
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 374155384}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 0d83ea44201e64941843727bee7c604c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  PaddleBody: {fileID: 374155387}
+  movespeed: 5
 --- !u!1 &519420028
 GameObject:
   m_ObjectHideFlags: 0
@@ -680,6 +695,8 @@ MonoBehaviour:
   m_GameObject: {fileID: 1379612661}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 7a6d45c5651dafb40a0db687a472ac34, type: 3}
+  m_Script: {fileID: 11500000, guid: f26aa18e30ef4fa4f9a3139557babe0f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  PaddleBody: {fileID: 1379612664}
+  moveSpeed: 5
