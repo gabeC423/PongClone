@@ -14,18 +14,19 @@ public class BallScript : MonoBehaviour
     void Start()
     {
         ballBody.velocity = new Vector2(maxVelocity, ballBody.velocity.y);
+        Debug.Log("Start: " + ballBody.velocity);
     }
 
     // Update is called once per frame
     void Update()
     {
-        
+
     }
     
     // Calculate the velocity of the ball on the Y-axis after hitting a paddle:
     private float calcVerticalVelocity(float ballY, float paddleY, BoxCollider2D paddle)
     {
-        float paddleHeight = paddle.size.y;
+        float paddleHeight = paddle.bounds.size.y;
         float collisionPointY = ballY - paddleY;
         float normPosition = collisionPointY / (paddleHeight/2);
         float verticalVelocity = normPosition * maxVelocity;
@@ -36,6 +37,7 @@ public class BallScript : MonoBehaviour
     // Function to set the ball's new X and Y positions following a paddle collision:
     private void OnCollisionEnter2D(Collision2D collision)
     {
+        Debug.Log("Before: " + ballBody.velocity);
         float ballVelocityY = ballBody.velocity.y;
         float ballVelocityX = ballBody.velocity.x;
         float ballCentreY = ballCollider.bounds.center.y;
@@ -45,14 +47,16 @@ public class BallScript : MonoBehaviour
         if (collision.collider == RightPaddle)
         {
             ballVelocityY = calcVerticalVelocity(ballCentreY, paddleCentreRY, RightPaddle);
-            ballVelocityX = -ballVelocityX;
+            ballVelocityX = -maxVelocity;
             ballBody.velocity = new Vector2(ballVelocityX, ballVelocityY);
         }
         else if (collision.collider == LeftPaddle)
         {
             ballVelocityY = calcVerticalVelocity(ballCentreY, paddleCentreLY, LeftPaddle);
-            ballVelocityX = -ballVelocityX;
+            ballVelocityX = maxVelocity;
             ballBody.velocity = new Vector2(ballVelocityX, ballVelocityY);
         }
+
+        Debug.Log("After: " + ballBody.velocity);
     }
 }
