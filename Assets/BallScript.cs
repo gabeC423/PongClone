@@ -14,6 +14,7 @@ public class BallScript : MonoBehaviour
     public BoxCollider2D bottomWall;
     public BoxCollider2D leftWall;
     public BoxCollider2D rightWall;
+    public ScoreScript scoreManager;
     float maxVelocity = 10f;
 
     // Start is called before the first frame update
@@ -89,5 +90,17 @@ public class BallScript : MonoBehaviour
 
 
         Debug.Log("After: " + ballBody.velocity);
+    }
+
+    private void OnTriggerEnter2D(Collider2D collision)
+    {
+        if (collision == leftWall)
+        {
+            scoreManager.updateRightScore();
+        }
+        else if (collision == rightWall)
+        {
+            scoreManager.updateLeftScore();
+        }        
     }
 }
