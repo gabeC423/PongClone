@@ -1,3 +1,4 @@
+using System.Data;
 using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.Rendering;
@@ -16,12 +17,17 @@ public class BallScript : MonoBehaviour
     public BoxCollider2D rightWall;
     public ScoreScript scoreManager;
     float maxVelocity = 10f;
+    Vector2 startPositionLP;
+    Vector2 startPositionRP;
+    Vector2 startPositionBall; 
 
     // Start is called before the first frame update
     void Start()
     {
         ballBody.velocity = new Vector2(maxVelocity, ballBody.velocity.y);
-        Debug.Log("Start: " + ballBody.velocity);
+        startPositionLP = LeftPaddle.transform.position;
+        startPositionRP = RightPaddle.transform.position;
+        startPositionBall = ballBody.transform.position;
     }
 
     // Update is called once per frame
@@ -41,6 +47,7 @@ public class BallScript : MonoBehaviour
         return verticalVelocity;
     }
 
+    // Calculate the velocity of the ball on the X-axis after hitting a paddle:
     private float calcHorizontalVelocity(float ballPosX, float surfacePosX, BoxCollider2D surface)
     {
         float surfaceLength = surface.bounds.size.x;
@@ -54,9 +61,8 @@ public class BallScript : MonoBehaviour
     // Function to set the ball's new X and Y positions following a paddle collision:
     private void OnCollisionEnter2D(Collision2D collision)
     {
-        Debug.Log("Before: " + ballBody.velocity);
-        float ballVelocityY = ballBody.velocity.y;
-        float ballVelocityX = ballBody.velocity.x;
+        float ballVelocityY;
+        float ballVelocityX;
         float ballCentreY = ballCollider.bounds.center.y;
         float paddleCentreRY = RightPaddle.bounds.center.y;
         float paddleCentreLY = LeftPaddle.bounds.center.y;
@@ -87,11 +93,9 @@ public class BallScript : MonoBehaviour
             ballVelocityY = maxVelocity + Random.Range(-1,10);
             ballBody.velocity = new Vector2(ballVelocityX, ballVelocityY);
         }
-
-
-        Debug.Log("After: " + ballBody.velocity);
     }
 
+    //Updates player score depending on which side the ball leaves the game scene:
     private void OnTriggerEnter2D(Collider2D collision)
     {
         if (collision == leftWall)
@@ -101,6 +105,11 @@ public class BallScript : MonoBehaviour
         else if (collision == rightWall)
         {
             scoreManager.updateLeftScore();
-        }        
+        } 
+
+        //Reset ball and padddles to starting positions:
+        LeftPaddle.transform.position = startPositionLP;
+        RightPaddle.transform.position = startPositionRP;
+        ballBody.transform.position = startPositionBall;
     }
 }
