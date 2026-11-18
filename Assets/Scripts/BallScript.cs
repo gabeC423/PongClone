@@ -107,12 +107,10 @@ public class BallScript : MonoBehaviour
             if (lastPaddleHit == RightPaddle)
             {
                 ballBody.velocity = new Vector2(-maxVelocity, ballVelocityY);
-                Debug.Log(ballBody.velocity.x);
             }
             else if (lastPaddleHit == LeftPaddle)
             {
                 ballBody.velocity = new Vector2(maxVelocity, ballVelocityY);
-                Debug.Log(ballBody.velocity.x);
             }
         }
     }
