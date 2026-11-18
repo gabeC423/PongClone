@@ -35,16 +35,13 @@ public class LeftPaddleMovement : MonoBehaviour
 
     private void OnCollisionStay2D(Collision2D collision)
     {
-        Debug.Log("Called wallCollision()" + collision.gameObject.name);
         if (collision.collider == bottomWall && Input.GetKey(KeyCode.S))
         {
             PaddleBody.velocity = Vector2.zero;
-            Debug.Log("After: " + PaddleBody.velocity);
         }
         else if (collision.collider == topWall && Input.GetKey(KeyCode.W))
         {
             PaddleBody.velocity = Vector2.zero;
-            Debug.Log("After: " + PaddleBody.velocity);
         }
     }
 }

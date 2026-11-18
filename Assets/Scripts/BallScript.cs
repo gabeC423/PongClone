@@ -15,11 +15,13 @@ public class BallScript : MonoBehaviour
     public BoxCollider2D bottomWall;
     public BoxCollider2D leftWall;
     public BoxCollider2D rightWall;
+    public BoxCollider2D lastPaddleHit;
     public ScoreScript scoreManager;
     float maxVelocity = 10f;
     Vector2 startPositionLP;
     Vector2 startPositionRP;
     Vector2 startPositionBall; 
+    
 
     // Start is called before the first frame update
     void Start()
@@ -28,6 +30,7 @@ public class BallScript : MonoBehaviour
         startPositionLP = LeftPaddle.transform.position;
         startPositionRP = RightPaddle.transform.position;
         startPositionBall = ballBody.transform.position;
+        lastPaddleHit = null;
     }
 
     // Update is called once per frame
@@ -66,32 +69,51 @@ public class BallScript : MonoBehaviour
         float ballCentreY = ballCollider.bounds.center.y;
         float paddleCentreRY = RightPaddle.bounds.center.y;
         float paddleCentreLY = LeftPaddle.bounds.center.y;
-        float wallCentreT = topWall.bounds.center.x;
-        float wallCentreB = bottomWall.bounds.center.x;
 
         if (collision.collider == RightPaddle)
         {
             ballVelocityY = calcVerticalVelocity(ballCentreY, paddleCentreRY, RightPaddle);
             ballVelocityX = -maxVelocity;
             ballBody.velocity = new Vector2(ballVelocityX, ballVelocityY);
+            lastPaddleHit = RightPaddle;
         }
         else if (collision.collider == LeftPaddle)
         {
             ballVelocityY = calcVerticalVelocity(ballCentreY, paddleCentreLY, LeftPaddle);
             ballVelocityX = maxVelocity;
             ballBody.velocity = new Vector2(ballVelocityX, ballVelocityY);
+            lastPaddleHit = LeftPaddle;
         }
         else if (collision.collider == topWall)
         {
-            ballVelocityX = calcHorizontalVelocity(ballCentreY, wallCentreT, topWall);
-            ballVelocityY = -maxVelocity + Random.Range(-1,10);
-            ballBody.velocity = new Vector2(ballVelocityX, ballVelocityY);
+            ballVelocityY = -maxVelocity;
+            
+            if (lastPaddleHit == RightPaddle)
+            {
+                ballBody.velocity = new Vector2(-maxVelocity, ballVelocityY);
+                Debug.Log(ballBody.velocity.x);
+            }
+            else if (lastPaddleHit == LeftPaddle)
+            {
+                ballBody.velocity = new Vector2(maxVelocity, ballVelocityY);
+                Debug.Log(ballBody.velocity.x);
+            }
+            
         }
         else if (collision.collider == bottomWall)
         {
-            ballVelocityX = calcHorizontalVelocity(ballCentreY, wallCentreB, bottomWall);
-            ballVelocityY = maxVelocity + Random.Range(-1,10);
-            ballBody.velocity = new Vector2(ballVelocityX, ballVelocityY);
+            ballVelocityY = maxVelocity;
+            
+            if (lastPaddleHit == RightPaddle)
+            {
+                ballBody.velocity = new Vector2(-maxVelocity, ballVelocityY);
+                Debug.Log(ballBody.velocity.x);
+            }
+            else if (lastPaddleHit == LeftPaddle)
+            {
+                ballBody.velocity = new Vector2(maxVelocity, ballVelocityY);
+                Debug.Log(ballBody.velocity.x);
+            }
         }
     }
 
