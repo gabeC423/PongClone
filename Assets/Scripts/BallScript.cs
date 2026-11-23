@@ -1,3 +1,4 @@
+using System;
 using System.Data;
 using Unity.VisualScripting;
 using UnityEngine;
@@ -18,6 +19,7 @@ public class BallScript : MonoBehaviour
     public BoxCollider2D lastPaddleHit;
     public ScoreScript scoreManager;
     float maxVelocity = 10f;
+    int gameMode = GameValues.maxScore;
     Vector2 startPositionLP;
     Vector2 startPositionRP;
     Vector2 startPositionBall; 
@@ -36,7 +38,7 @@ public class BallScript : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        
+        CheckScore();
     }
     
     // Calculate the velocity of the ball on the Y-axis after hitting a paddle:
@@ -115,6 +117,19 @@ public class BallScript : MonoBehaviour
         }
     }
 
+    // Function for setting the game mode variable depending on which mode was selected.
+    public void SetMode(String mode)
+    {
+        if (mode == "TEN")
+        {
+            gameMode = 10;
+        }
+        else if (mode == "FIVE")
+        {
+            gameMode = 5;
+        }
+    }
+
     //Updates player score depending on which side the ball leaves the game scene:
     private void OnTriggerEnter2D(Collider2D collision)
     {
@@ -131,5 +146,13 @@ public class BallScript : MonoBehaviour
         LeftPaddle.transform.position = startPositionLP;
         RightPaddle.transform.position = startPositionRP;
         ballBody.transform.position = startPositionBall;
+    }
+
+    private void CheckScore()
+    {
+        if (scoreManager.GetHighestScore() == gameMode)
+        {
+            Debug.Log("GAME!");
+        }    
     }
 }

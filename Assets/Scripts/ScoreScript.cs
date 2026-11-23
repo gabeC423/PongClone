@@ -1,6 +1,8 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using TMPro;
+using UnityEditor.UIElements;
 using UnityEngine;
 using UnityEngine.SocialPlatforms.Impl;
 using UnityEngine.UI;
@@ -34,5 +36,10 @@ public class ScoreScript : MonoBehaviour
     {
         scoreR += 1;
         rightSore.text = scoreR.ToString();
+    }
+
+    public int GetHighestScore()
+    {
+        return Mathf.Max(scoreL, scoreR);
     }
 }
